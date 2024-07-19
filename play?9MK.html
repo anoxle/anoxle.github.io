@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AnoxlePlay | AKAKAKA.mp3</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="https://i.ibb.co/VJvQQz6/image-2024-07-19-065512792.png">
+<style>
+body {
+  background-color: #1a1a1a;
+  color: #f2f2f2;
+  font-family: 'Roboto', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  animation: rippleEffect 10s ease infinite;
+}
+
+@keyframes rippleEffect {
+  0% { background-color: #1a1a1a; }
+  50% { background-color: #2b2b2b; }
+  100% { background-color: #1a1a1a; }
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.player {
+  background-color: #2b2b2b;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.now-playing {
+  font-size: 20px;
+  margin-bottom: 20px;
+  animation: slideIn 1s ease-in-out;
+}
+
+@keyframes slideIn {
+  0% { opacity: 0; transform: translateX(-20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 18px;
+  animation: fadeIn 1s ease-in-out 0.2s;
+  animation-fill-mode: both;
+}
+
+.controls span {
+  cursor: pointer;
+  margin: 0 15px;
+  transition: transform 0.3s ease;
+}
+
+.controls span.active {
+  transform: scale(1.2);
+}
+
+.volume-slider {
+  width: 100%;
+  margin-top: 20px;
+  animation: fadeIn 1s ease-in-out 0.4s;
+  animation-fill-mode: both;
+  position: relative;
+}
+
+.volume-value {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background-color: #2b2b2b;
+  border-radius: 20px;
+  padding: 4px 8px;
+  font-size: 14px;
+  animation: slideIn 1s ease-in-out 0.4s;
+  animation-fill-mode: both;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background-color: #3b3b3b;
+  border-radius: 4px;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: #4287f5;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background-color: #4287f5;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #3b3b3b;
+  border-radius: 4px;
+  margin-top: 20px;
+  position: relative;
+  animation: fadeIn 1s ease-in-out 0.6s;
+  animation-fill-mode: both;
+}
+
+#progress {
+  height: 100%;
+  background-color: #4287f5;
+  border-radius: 4px;
+  width: 0;
+}
+
+.loading-bar {
+  width: 0;
+  height: 8px;
+  background-color: #4287f5;
+  border-radius: 4px;
+  margin-top: 20px;
+  animation: loading 2s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% { width: 0; }
+  50% { width: 100%; }
+  100% { width: 0; }
+}
+
+.loading-text {
+  font-size: 16px;
+  margin-top: 10px;
+  animation: fadeIn 1s ease-in-out 0.8s;
+  animation-fill-mode: both;
+}
+
+.disclaimer {
+  color: #fff;
+  font-size: 14px;
+  margin-top: 20px;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out 1s;
+  animation-fill-mode: both;
+}
+
+.disclaimer a {
+  color: #4287f5;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  .player {
+    padding: 20px;
+  }
+
+  .now-playing {
+    font-size: 18px;
+  }
+
+  .controls {
+    font-size: 16px;
+  }
+
+  .volume-value {
+    font-size: 12px;
+  }
+
+  .loading-text {
+    font-size: 14px;
+  }
+
+  .disclaimer {
+    font-size: 12px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="player">
+    <audio id="audio-player" src="https://anoxle.github.io/postmusic-4x6M.mp3"></audio>
+    <div class="now-playing">AKAKAKA.mp3</div>
+    <div class="controls">
+      <span id="backward">Backward (5s)</span>
+      <span id="play-pause">Play</span>
+      <span id="forward">Forward (5s)</span>
+      <span id="repeat">Repeat</span>
+    </div>
+    <div id="progress-bar">
+      <div id="progress"></div>
+    </div>
+    <div class="loading-bar"></div>
+    <div class="loading-text">Loading...</div>
+    <div class="volume-slider">
+      <input type="range" id="volume-slider" min="0" max="100" value="5">
+      <div class="volume-value">5</div>
+    </div>
+  </div>
+  <div class="disclaimer">
+    <a href="https://anoxle.github.io/ava/support" target="_blank">If this violates our rules, please report it to our discord!</a>
+  </div>
+</div>
+<script>
+const audioPlayer = document.getElementById('audio-player');
+const playPauseBtn = document.getElementById('play-pause');
+const backwardBtn = document.getElementById('backward');
+const forwardBtn = document.getElementById('forward');
+const repeatBtn = document.getElementById('repeat');
+const volumeSlider = document.getElementById('volume-slider');
+const volumeValue = document.querySelector('.volume-value');
+const progressBar = document.getElementById('progress');
+const loadingBar = document.querySelector('.loading-bar');
+const loadingText = document.querySelector('.loading-text');
+let isPlaying = false;
+let isRepeating = false;
+let repeatCount = 0;
+
+loadingBar.style.display = 'block';
+loadingText.style.display = 'block';
+
+audioPlayer.addEventListener('canplaythrough', () => {
+  loadingBar.style.display = 'none';
+  loadingText.style.display = 'none';
+});
+
+playPauseBtn.addEventListener('click', () => {
+  if (isPlaying) {
+    audioPlayer.pause();
+    playPauseBtn.textContent = 'Play';
+    playPauseBtn.classList.remove('active');
+  } else {
+    audioPlayer.play();
+    playPauseBtn.textContent = 'Pause';
+    playPauseBtn.classList.add('active');
+  }
+  isPlaying = !isPlaying;
+});
+
+backwardBtn.addEventListener('click', () => {
+  audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 5);
+});
+
+forwardBtn.addEventListener('click', () => {
+  audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 5);
+});
+
+repeatBtn.addEventListener('click', () => {
+  if (isRepeating) {
+    repeatCount++;
+    repeatBtn.textContent = `Repeat+ (${repeatCount})`;
+  } else {
+    repeatBtn.textContent = 'Repeat';
+    audioPlayer.loop = true;
+  }
+  isRepeating = !isRepeating;
+  repeatBtn.classList.toggle('active');
+});
+
+volumeSlider.addEventListener('input', () => {
+  audioPlayer.volume = volumeSlider.value / 100;
+  volumeValue.textContent = volumeSlider.value;
+  volumeValue.style.opacity = 1;
+});
+
+volumeSlider.addEventListener('change', () => {
+  setTimeout(() => {
+    volumeValue.style.opacity = 0;
+  }, 3000);
+});
+
+audioPlayer.addEventListener('timeupdate', () => {
+  const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+  progressBar.style.width = `${progress}%`;
+  const currentTime = audioPlayer.currentTime;
+  const duration = audioPlayer.duration;
+  const percentage = (currentTime / duration) * 100;
+  document.body.style.backgroundColor = `hsl(${percentage},50%,25%)`;
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.code === 'Space') {
+    playPauseBtn.click();
+  } else if (event.code === 'ArrowUp') {
+    volumeSlider.value = Math.min(100, parseInt(volumeSlider.value) + 5);
+    audioPlayer.volume = volumeSlider.value / 100;
+    volumeValue.textContent = volumeSlider.value;
+    volumeValue.style.opacity = 1;
+  } else if (event.code === 'ArrowDown') {
+    volumeSlider.value = Math.max(0, parseInt(volumeSlider.value) - 5);
+    audioPlayer.volume = volumeSlider.value / 100;
+    volumeValue.textContent = volumeSlider.value;
+    volumeValue.style.opacity = 1;
+  }
+});
+
+volumeSlider.value = 5;
+audioPlayer.volume = 0.05;
+volumeValue.textContent = 5;
+</script>
+</body>
+</html>
