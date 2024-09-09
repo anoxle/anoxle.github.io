@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    height: 100vh;
+    background-color: black;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-family: 'Averia Gruesa Libre', cursive;
+}
+.star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: move linear infinite;
+}
+@keyframes move {
+    0% { transform: translateY(-10vh); }
+    100% { transform: translateY(110vh); }
+}
+.image {
+    width: 128px;
+    height: 128px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.2s;
+}
+@keyframes popIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.text {
+    margin-top: 10px;
+    font-size: 32px;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInUp 0.5s ease forwards 0.8s;
+}
+.description {
+    margin-top: 10px;
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInUp 0.5s ease forwards 1.2s;
+}
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.discord-button, .links-button {
+    margin-top: 13px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+.discord-button { animation: fadeInUp 0.5s ease forwards 1.6s; }
+.links-button { animation: fadeInUp 0.5s ease forwards 1.9s; }
+.discord-button i, .links-button i {
+    margin-right: 8px;
+    padding: 5px;
+}
+.discord-button:hover, .links-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
