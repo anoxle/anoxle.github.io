@@ -1,1 +1,49 @@
-Still working on this!
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NotGhostXD - Anoxle Bio</title>
+  <meta name="keywords" content="notghostxd, notghostxd info, YouTuber, Roblox videos, Anoxle, gaming, Discord, links">
+  <link rel="icon" href="/assets/qy3eq.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Averia+Gruesa+Libre&family=Raleway:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://anoxle.github.io/bio/notghostxd/assets/styles.css">
+</head>
+
+<body>
+  <img class="image" src="https://anoxle.github.io/bio/notghostxd/assets/pfp.png" alt="Profile Picture">
+  <div class="text">NotGhostXD</div>
+  <div class="description">A YouTuber known for making awesome Roblox videos</div>
+  <button class="discord-button">
+      <i class="fab fa-discord"></i> Discord Server
+  </button>
+  
+  <button class="links-button" onclick="window.location.href='https://anoxle.github.io/notghostxdlinks'">
+      <i class="fas fa-link"></i> View all Links
+  </button>
+  <script>
+      function createStars() {
+          const starCount = Math.floor(window.innerWidth / 10);
+          for (let i = 0; i < starCount; i++) {
+              const star = document.createElement('div');
+              star.className = 'star';
+              const size = Math.random() * 3 + 1;
+              star.style.width = `${size}px`;
+              star.style.height = `${size}px`;
+              star.style.top = `${Math.random() * 100}vh`;
+              star.style.left = `${Math.random() * 100}vw`;
+              star.style.animationDuration = `${Math.random() * 10 + 5}s`;
+              document.body.appendChild(star);
+          }
+      }
+      createStars();
+      window.addEventListener('resize', () => {
+          document.querySelectorAll('.star').forEach(star => star.remove());
+          createStars();
+      });
+  </script>
+  
+</body>
+</html>
