@@ -3,3 +3,5 @@ anoxle.github.io/ > anoxle.github.io/notghostxdlinks > anoxle.github.io/verified
 anoxle.github.io/ > anoxle.github.io/vulpes/ > anoxle.github.io/vulpes/install > anoxle.github.io/vulpes/privacy > anoxle.github.io/vulpes/terms > anoxle.github.io/vulpes/support > anoxle.github.io/vulpes/tutorial > anoxle.github.io/vulpes/invite
 -
 anoxle.github.io/ > anoxle.github.io/xvar/ > anoxle.github.io/xvar/terms > anoxle.github.io/xvar/privacy
+-
+anoxle.github.io/ > anoxle.github.io/cyscripts/ > anoxle.github.io/cyscripts/executor/nezur
