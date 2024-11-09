@@ -15,14 +15,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     (
                         parsedOriginalUrl.pathname === '/404' || 
                         parsedOriginalUrl.search.includes('url=') ||
-                        parsedOriginalUrl.href === currentUrl.href
+                        new URL(parsedOriginalUrl.pathname, window.location.origin).href === 
+                        new URL(currentUrl.pathname, window.location.origin).href
                     )
                 ) {
                     console.warn('Preventing recursive redirect');
                     return;
                 }
                 
-                window.location.replace(originalUrl);
+                // If the original URL is just a path, construct full URL
+                const redirectUrl = parsedOriginalUrl.hostname ? 
+                    parsedOriginalUrl.href : 
+                    window.location.origin + parsedOriginalUrl.pathname;
+
+                // Use window.location.replace to avoid adding to history
+                window.location.replace(redirectUrl);
             } catch (error) {
                 console.error('Invalid URL:', originalUrl);
             }
