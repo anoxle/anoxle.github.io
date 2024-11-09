@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 Page Not Found</title>
     <link rel="icon" href="https://anoxle.github.io/icon.png" type="image/png">
+    <script src="/404-redirect.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -183,18 +184,21 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const path = window.location.pathname;
-            const originUrl = window.location.origin + path;
+            const urlParams = new URLSearchParams(window.location.search);
+            const originalUrl = urlParams.get('url');
 
-            const originUrlContainer = document.getElementById('originUrlContainer');
-            const originUrlLink = document.getElementById('originUrlLink');
+            if (originalUrl) {
+                const decodedUrl = decodeURIComponent(originalUrl);
+                const originUrlContainer = document.getElementById('originUrlContainer');
+                const originUrlLink = document.getElementById('originUrlLink');
 
-            originUrlLink.href = originUrl;
-            originUrlLink.textContent = originUrl;
-            originUrlContainer.style.display = 'block';
-        });
+                originUrlLink.href = decodedUrl;
+                originUrlLink.textContent = decodedUrl;
+                originUrlContainer.style.display = 'block';
+            }
 
             createParticles();
+        });
     </script>
 </body>
 </html>
