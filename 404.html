@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        // Get the current full URL
+        const currentUrl = window.location.href;
+        
+        // Redirect to the 404 display page with the URL as a parameter
+        window.location.href = `/404.html?url=${encodeURIComponent(currentUrl)}`;
+    </script>
+</head>
+<body>
+    Redirecting...
+</body>
+</html>
