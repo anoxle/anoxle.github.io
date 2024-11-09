@@ -5,8 +5,23 @@
         // Get the current full URL
         const currentUrl = window.location.href;
         
-        // Redirect to the 404 display page with the URL as a parameter
-        window.location.href = `/404.html?url=${encodeURIComponent(currentUrl)}`;
+        // Check if the URL is already a 404 page to prevent infinite recursion
+        if (currentUrl.includes('/404.html')) {
+            // If it's already a 404 page, extract the original URL from the query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const originalUrl = urlParams.get('url');
+            
+            if (originalUrl) {
+                // Redirect to the 404 display page with the original URL
+                window.location.href = `/404/index.html?url=${encodeURIComponent(originalUrl)}`;
+            } else {
+                // Fallback to home page if no original URL is found
+                window.location.href = '/';
+            }
+        } else {
+            // Normal 404 redirection
+            window.location.href = `/404/index.html?url=${encodeURIComponent(currentUrl)}`;
+        }
     </script>
 </head>
 <body>
