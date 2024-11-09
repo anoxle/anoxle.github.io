@@ -3,7 +3,6 @@
 <head>
     <script>
         const currentUrl = window.location.href;
-        
         function extractBaseUrl(url) {
             try {
                 const parsedUrl = new URL(url);
@@ -12,14 +11,12 @@
                 return url;
             }
         }
-        
         if (currentUrl.includes('/404.html') || currentUrl.includes('/404')) {
             const urlParams = new URLSearchParams(window.location.search);
             const originalUrl = urlParams.get('url');
-            
             if (originalUrl) {
-                const baseOriginalUrl = extractBaseUrl(decodeURIComponent(originalUrl));
-                window.location.href = `/404?url=${encodeURIComponent(baseOriginalUrl)}`;
+                const cleanUrl = decodeURIComponent(originalUrl).replace(/\/404(\?url=)?/g, '').split('?')[0];
+                window.location.href = cleanUrl || '/';
             } else {
                 window.location.href = '/';
             }
