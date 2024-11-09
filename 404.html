@@ -188,18 +188,25 @@
             const originalUrl = urlParams.get('url');
     
             if (originalUrl) {
-                const decodedUrl = originalUrl.includes('%') ? decodeURIComponent(originalUrl) : originalUrl;
-                
-                const originUrlContainer = document.getElementById('originUrlContainer');
-                const originUrlLink = document.getElementById('originUrlLink');
+                try {
+                    // Safely decode and parse the URL
+                    const decodedUrl = decodeURIComponent(originalUrl);
+                    const parsedUrl = new URL(decodedUrl);
     
-                const displayUrl = decodedUrl.length > 200 
-                    ? decodedUrl.substring(0, 200) + '...' 
-                    : decodedUrl;
+                    const originUrlContainer = document.getElementById('originUrlContainer');
+                    const originUrlLink = document.getElementById('originUrlLink');
     
-                originUrlLink.href = decodedUrl;
-                originUrlLink.textContent = displayUrl;
-                originUrlContainer.style.display = 'block';
+                    // Truncate extremely long URLs
+                    const displayUrl = decodedUrl.length > 200 
+                        ? decodedUrl.substring(0, 200) + '...' 
+                        : decodedUrl;
+    
+                    originUrlLink.href = decodedUrl;
+                    originUrlLink.textContent = displayUrl;
+                    originUrlContainer.style.display = 'block';
+                } catch (error) {
+                    console.error('Invalid URL:', originalUrl);
+                }
             }
     
             createParticles();

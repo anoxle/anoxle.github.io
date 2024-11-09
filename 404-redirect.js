@@ -1,23 +1,38 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if we're already on the 404 page
+    // Prevent redirection if already on 404 page
     if (window.location.pathname === '/404') {
-        // If URL parameter exists, stop further redirection
         const urlParams = new URLSearchParams(window.location.search);
         const originalUrl = urlParams.get('url');
         
         if (originalUrl) {
-            // Prevent further redirection
+            // Parse the original URL
+            try {
+                const parsedUrl = new URL(originalUrl);
+                
+                // Additional checks to prevent recursive redirects
+                if (parsedUrl.hostname === window.location.hostname && 
+                    (parsedUrl.pathname === '/404' || parsedUrl.search.includes('url='))) {
+                    // If it's a recursive 404 or contains another URL parameter, stop here
+                    console.warn('Preventing recursive redirect');
+                    return;
+                }
+                
+                // Attempt to redirect to the original URL
+                window.location.href = originalUrl;
+            } catch (error) {
+                console.error('Invalid URL:', originalUrl);
+            }
             return;
         }
     }
 
     // Check if the requested page doesn't exist
     const currentPath = window.location.pathname;
-    const isKnownPage = currentPath === '/' || 
-                        currentPath.startsWith('/index.html') || 
-                        currentPath === '/404' ||
-                        // Add other known page paths here
-                        false;
+    const isKnownPage = [
+        '/', 
+        '/404'
+        // Add other known page paths here
+    ].includes(currentPath);
 
     if (!isKnownPage) {
         // Encode the current full URL
