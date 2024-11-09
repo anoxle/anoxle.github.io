@@ -12,15 +12,15 @@
             const originalUrl = urlParams.get('url');
             
             if (originalUrl) {
-                // Redirect to the 404 display page with the original URL
-                window.location.href = `/404/index.html?url=${encodeURIComponent(originalUrl)}`;
+                // Redirect to the 404 page with the original URL
+                window.location.href = `/404?url=${encodeURIComponent(originalUrl)}`;
             } else {
                 // Fallback to home page if no original URL is found
                 window.location.href = '/';
             }
         } else {
             // Normal 404 redirection
-            window.location.href = `/404/index.html?url=${encodeURIComponent(currentUrl)}`;
+            window.location.href = `/404?url=${encodeURIComponent(currentUrl)}`;
         }
     </script>
 </head>
