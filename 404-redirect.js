@@ -1,9 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Check if we're already on the 404 page
+    if (window.location.pathname === '/404') {
+        // If URL parameter exists, stop further redirection
+        const urlParams = new URLSearchParams(window.location.search);
+        const originalUrl = urlParams.get('url');
+        
+        if (originalUrl) {
+            // Prevent further redirection
+            return;
+        }
+    }
+
     // Check if the requested page doesn't exist
-    // You might need to adjust this condition based on how your site is structured
     const currentPath = window.location.pathname;
     const isKnownPage = currentPath === '/' || 
                         currentPath.startsWith('/index.html') || 
+                        currentPath === '/404' ||
                         // Add other known page paths here
                         false;
 
