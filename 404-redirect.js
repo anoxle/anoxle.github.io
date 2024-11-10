@@ -13,9 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
                 
-                if (originalUrl !== window.location.href) {
-                    window.location.href = originalUrl;
+                if (originalUrl === window.location.href) {
+                    console.log('Preventing self-redirect');
+                    return;
                 }
+                
+                window.location.href = originalUrl;
             } catch (error) {
                 console.error('Invalid URL:', originalUrl);
             }
@@ -31,9 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (!isKnownPage) {
         const currentUrl = window.location.href;
-        if (currentUrl.includes('/404?url=')) {
-            return;
-        }
         window.location.href = '/404?url=' + encodeURIComponent(currentUrl);
     }
 });
