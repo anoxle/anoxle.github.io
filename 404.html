@@ -30,8 +30,8 @@
             position: relative;
             z-index: 10;
             opacity: 0;
-            transform: perspective(1000px) rotateX(-90deg);
-            animation: unfoldIn 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            transform: perspective(1000px) rotateX(-90deg) scale(0.7);
+            animation: unfoldIn 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
         }
 
         .error-code {
@@ -43,7 +43,6 @@
             color: transparent;
             margin: 0;
             line-height: 1;
-            animation: pulse 2s infinite;
             margin-bottom: 0.5rem;
             transform: scale(0);
             animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s forwards;
@@ -57,11 +56,33 @@
             text-decoration: none;
             border-radius: 25px;
             font-weight: 500;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
             margin-top: 0.75rem;
             opacity: 0;
             transform: translateY(20px);
             animation: slideUpFade 0.6s ease-out 0.6s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+        }
+
+        .home-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .home-button:hover::before {
+            left: 100%;
         }
 
         .message {
@@ -79,20 +100,29 @@
         @keyframes unfoldIn {
             0% {
                 opacity: 0;
-                transform: perspective(1000px) rotateX(-90deg);
+                transform: perspective(1000px) rotateX(-90deg) scale(0.7);
+            }
+            70% {
+                transform: perspective(1000px) rotateX(20deg) scale(1.1);
             }
             100% {
                 opacity: 1;
-                transform: perspective(1000px) rotateX(0deg);
+                transform: perspective(1000px) rotateX(0deg) scale(1);
             }
         }
 
         @keyframes popIn {
             0% {
                 transform: scale(0);
+                text-shadow: 0 0 0 rgba(0,0,0,0);
+            }
+            80% {
+                transform: scale(1.1);
+                text-shadow: 0 10px 20px rgba(108, 92, 231, 0.2);
             }
             100% {
                 transform: scale(1);
+                text-shadow: 0 5px 15px rgba(108, 92, 231, 0.1);
             }
         }
 
@@ -105,12 +135,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
         }
 
         .particles {
@@ -195,8 +219,7 @@
                 particle.style.opacity = Math.random() * 0.4;
 
                 container.appendChild(particle);
-            }
-        }
+            } }
 
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
