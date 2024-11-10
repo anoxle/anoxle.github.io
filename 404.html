@@ -202,7 +202,17 @@
             const urlParams = new URLSearchParams(window.location.search);
             const originalUrl = urlParams.get('url');
 
-            if (originalUrl) {
+            // Modify the message element
+            const messageElement = document.querySelector('.message');
+
+            if (!originalUrl) {
+                // If no URL is provided, show the custom error message
+                messageElement.innerHTML = "ERROR: Unknown-i53o";
+                
+                // Optionally, hide the origin URL container
+                const originUrlContainer = document.getElementById('originUrlContainer');
+                originUrlContainer.style.display = 'none';
+            } else {
                 try {
                     const decodedUrl = decodeURIComponent(originalUrl);
                     const parsedUrl = new URL(decodedUrl);
@@ -212,18 +222,18 @@
 
                     const displayUrl = decodedUrl.length > 200 
                         ? decodedUrl.substring(0, 200) + '...' 
-                        : decodedUrl;
+                 : decodedUrl;
 
                     originUrlLink.href = decodedUrl;
                     originUrlLink.textContent = displayUrl;
                     originUrlContainer.style.display = 'block';
                 } catch (error) {
                     console.error('Invalid URL:', originalUrl);
+                    messageElement.innerHTML = "ERROR: Invalid URL";
                 }
             }
 
             createParticles();
-         createParticles();
         });
     </script>
 </body>
