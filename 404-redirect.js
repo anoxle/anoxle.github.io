@@ -1,35 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if we're on the 404 page
     if (window.location.pathname === '/404') {
         const urlParams = new URLSearchParams(window.location.search);
         const originalUrl = urlParams.get('url');
         
         if (originalUrl) {
             try {
-                const parsedOriginalUrl = new URL(originalUrl);
-                const currentUrl = new URL(window.location.href);
-
-                // Prevent redirecting to 404 page again or to itself
-                if (
-                    parsedOriginalUrl.hostname === currentUrl.hostname &&
-                    (
-                        // Explicitly check for problematic paths or parameters
-                        parsedOriginalUrl.pathname === '/404' || 
-                        parsedOriginalUrl.search.includes('url=') ||
-                        parsedOriginalUrl.href.includes('/404?url=')
-                    )
-                ) {
+                const parsedUrl = new URL(originalUrl);
+                
+                if (parsedUrl.hostname === window.location.hostname && 
+                    (parsedUrl.pathname === '/404' || parsedUrl.search.includes('url='))) {
                     console.warn('Preventing recursive redirect');
                     return;
                 }
                 
-                // If the original URL is just a path, construct full URL
-                const redirectUrl = parsedOriginalUrl.hostname ? 
-                    parsedOriginalUrl.href : 
-                    window.location.origin + parsedOriginalUrl.pathname;
-
-                // Use window.location.replace to avoid adding to history
-                window.location.replace(redirectUrl);
+                if (originalUrl !== window.location.href) {
+                    window.location.href = originalUrl;
+                }
             } catch (error) {
                 console.error('Invalid URL:', originalUrl);
             }
@@ -37,16 +23,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // For non-404 pages
     const currentPath = window.location.pathname;
     const isKnownPage = [
         '/', 
         '/404'
     ].includes(currentPath);
 
-    // Add more robust checks to prevent unnecessary redirects
-    if (!isKnownPage && !currentPath.includes('/404')) {
+    if (!isKnownPage) {
         const currentUrl = window.location.href;
-        window.location.replace('/404?url=' + encodeURIComponent(currentUrl));
+        if (currentUrl.includes('/404?url=')) {
+            return;
+        }
+        window.location.href = '/404?url=' + encodeURIComponent(currentUrl);
     }
 });
