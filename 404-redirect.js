@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // If we're already on the 404 page, handle displaying the original URL
     if (window.location.pathname === '/404') {
         const urlParams = new URLSearchParams(window.location.search);
         const originalUrl = urlParams.get('url');
@@ -6,34 +7,30 @@ document.addEventListener('DOMContentLoaded', function() {
         if (originalUrl) {
             try {
                 const parsedUrl = new URL(originalUrl);
-                
-                if (parsedUrl.hostname === window.location.hostname && 
-                    (parsedUrl.pathname === '/404' || parsedUrl.search.includes('url='))) {
-                    console.warn('Preventing recursive redirect');
-                    return;
-                }
-                
-                if (originalUrl === window.location.href) {
-                    console.log('Preventing self-redirect');
-                    return;
-                }
-                
-                window.location.href = originalUrl;
+                // Don't redirect if we're already on 404 page
+                return;
             } catch (error) {
                 console.error('Invalid URL:', originalUrl);
             }
-            return;
         }
+        return;
     }
 
-    const currentPath = window.location.pathname;
-    const isKnownPage = [
+    // List of known valid pages/paths
+    const knownPages = [
         '/', 
-        '/404'
-    ].includes(currentPath);
+        '/404',
+        // Add other valid paths here
+    ];
 
-    if (!isKnownPage) {
+    const currentPath = window.location.pathname;
+    
+    // Only redirect if the current path is not in knownPages
+    if (!knownPages.includes(currentPath)) {
         const currentUrl = window.location.href;
-        window.location.href = '/404?url=' + encodeURIComponent(currentUrl);
+        // Add a flag to prevent infinite redirects
+        if (!currentUrl.includes('/404?')) {
+            window.location.href = '/404?url=' + encodeURIComponent(currentUrl);
+        }
     }
 });
