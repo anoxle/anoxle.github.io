@@ -19,6 +19,40 @@
             overflow: hidden;
         }
 
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(108, 92, 231, 0.2);
+            border-top: 4px solid #6c5ce7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 20px rgba(108, 92, 231, 0.1);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .container {
             background: rgba(255, 255, 255, 0.95);
             padding: 1.5rem 3rem;
@@ -32,7 +66,6 @@
             opacity: 0;
             transform: perspective(1000px) rotateX(-90deg) scale(0.7);
             animation: unfoldIn 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-            animation-fill-mode: forwards;
         }
 
         .error-code {
@@ -47,7 +80,6 @@
             margin-bottom: 0.5rem;
             transform: scale(0);
             animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s forwards;
-            animation-fill-mode: forwards;
         }
 
         .home-button {
@@ -63,7 +95,6 @@
             opacity: 0;
             transform: translateY(20px);
             animation: slideUpFade 0.6s ease-out 0.6s forwards;
-            animation-fill-mode: forwards;
             position: relative;
             overflow: hidden;
         }
@@ -92,14 +123,12 @@
             opacity: 0;
             transform: translateY(20px);
             animation: slideUpFade 0.6s ease-out 0.5s forwards;
-            animation-fill-mode: forwards;
         }
 
         .origin-url {
             opacity: 0;
             transform: translateY(20px);
             animation: slideUpFade 0.6s ease-out 0.7s forwards;
-            animation-fill-mode: forwards;
         }
 
         @keyframes unfoldIn {
@@ -186,6 +215,10 @@
     </style>
 </head>
 <body>
+    <div class="loader">
+        <div class="loader-spinner"></div>
+    </div>
+
     <div class="particles" id="particlesContainer"></div>
     
     <div class="container">
@@ -196,11 +229,16 @@
         </div>
         <div id="originUrlContainer" class="origin-url" style="display: none;">
             You came from: <a id="originUrlLink" href="#"></a>
-        </div>
+         </div>
         <a href="/" class="home-button">Back to Home</a>
     </div>
 
     <script>
+        window.addEventListener('load', function() {
+            const loader = document.querySelector('.loader');
+            loader.classList.add('hidden');
+        });
+
         function createParticles() {
             const container = document.getElementById('particlesContainer');
             const particleCount = 50;
@@ -219,24 +257,52 @@
                 particle.style.animationDelay = `${Math.random() * 2}s`;
                 particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
 
-                particle.style.animation = `particleMove ${Math.random() * 10 + 5} s linear infinite`;
+                particle.style.animation = `particleMove ${Math.random() * 10 + 5}s infinite alternate`;
+
+                particle.style.opacity = Math.random() * 0.4;
+
                 container.appendChild(particle);
             }
         }
 
-        window.onload = function() {
-            createParticles();
-            const originUrlContainer = document.getElementById('originUrlContainer');
-            const originUrlLink = document.getElementById('originUrlLink');
-            if (document.referrer) {
-                originUrlContainer.style.display = 'block';
-                originUrlLink.href = document.referrer;
-                originUrlLink.textContent = document.referrer;
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const originalUrl = urlParams.get('url');
+
+            const messageElement = document.querySelector('.message');
+
+            if (!originalUrl) {
+                messageElement.innerHTML = "[E]: Comeback URL not found";
+                
+                const originUrlContainer = document.getElementById('originUrlContainer');
+                originUrlContainer.style.display = 'none';
+            } else {
+                try {
+                    const decodedUrl = decodeURIComponent(originalUrl);
+                    const parsedUrl = new URL(decodedUrl);
+
+                    const originUrlContainer = document.getElementById('originUrlContainer');
+                    const originUrlLink = document.getElementById('originUrlLink');
+
+                    const displayUrl = decodedUrl.length > 200 
+                        ? decodedUrl.substring(0, 200) + '...' 
+                        : decodedUrl;
+
+                    if (!decodedUrl.includes('anoxle.github.io')) {
+                        messageElement.innerHTML = "[E]: Comeback URL is not on main branch";
+                    } else {
+                        originUrlLink.href = decodedUrl;
+                        originUrlLink.textContent = displayUrl;
+                        originUrlContainer.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Invalid URL:', originalUrl);
+                    messageElement.innerHTML = "[E]: Invalid URL";
+                }
             }
-            const container = document.querySelector('.container');
-            container.style.opacity = 1;
-            container.style.transform = 'perspective(1000px) rotateX(0deg) scale(1)';
-        };
+
+            createParticles();
+        });
     </script>
 </body>
 </html>
