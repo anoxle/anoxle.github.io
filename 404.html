@@ -202,14 +202,11 @@
             const urlParams = new URLSearchParams(window.location.search);
             const originalUrl = urlParams.get('url');
 
-            // Modify the message element
             const messageElement = document.querySelector('.message');
 
             if (!originalUrl) {
-                // If no URL is provided, show the custom error message
-                messageElement.innerHTML = "ERROR: Unknown-i53o";
+                messageElement.innerHTML = "[E]: Comeback URL not found";
                 
-                // Optionally, hide the origin URL container
                 const originUrlContainer = document.getElementById('originUrlContainer');
                 originUrlContainer.style.display = 'none';
             } else {
@@ -222,14 +219,18 @@
 
                     const displayUrl = decodedUrl.length > 200 
                         ? decodedUrl.substring(0, 200) + '...' 
-                 : decodedUrl;
+                        : decodedUrl;
 
-                    originUrlLink.href = decodedUrl;
-                    originUrlLink.textContent = displayUrl;
-                    originUrlContainer.style.display = 'block';
+                    if (!decodedUrl.includes('anoxle.github.io')) {
+                        messageElement.innerHTML = "[E]: Comeback URL is not on main branch";
+                    } else {
+                        originUrlLink.href = decodedUrl;
+                        originUrlLink.textContent = displayUrl;
+                        originUrlContainer.style.display = 'block';
+                    }
                 } catch (error) {
                     console.error('Invalid URL:', originalUrl);
-                    messageElement.innerHTML = "ERROR: Invalid URL";
+                    messageElement.innerHTML = "[E]: Invalid URL";
                 }
             }
 
