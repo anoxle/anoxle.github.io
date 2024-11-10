@@ -13,10 +13,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (
                     parsedOriginalUrl.hostname === currentUrl.hostname &&
                     (
+                        // Explicitly check for problematic paths or parameters
                         parsedOriginalUrl.pathname === '/404' || 
                         parsedOriginalUrl.search.includes('url=') ||
-                        new URL(parsedOriginalUrl.pathname, window.location.origin).href === 
-                        new URL(currentUrl.pathname, window.location.origin).href
+                        parsedOriginalUrl.href.includes('/404?url=')
                     )
                 ) {
                     console.warn('Preventing recursive redirect');
@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
         '/404'
     ].includes(currentPath);
 
-    if (!isKnownPage) {
+    // Add more robust checks to prevent unnecessary redirects
+    if (!isKnownPage && !currentPath.includes('/404')) {
         const currentUrl = window.location.href;
         window.location.replace('/404?url=' + encodeURIComponent(currentUrl));
     }
