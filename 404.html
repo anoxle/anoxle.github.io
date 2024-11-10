@@ -27,10 +27,31 @@
             height: 100%;
             background: rgba(255, 255, 255, 0.9);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.8s ease;
+        }
+
+        .loader-text {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #2d3436;
+        }
+
+        .loader-error {
+            margin-top: 10px;
+            color: #e74c3c;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .loader-error.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .loader-spinner {
@@ -39,7 +60,7 @@
             border: 4px solid rgba(108, 92, 231, 0.2);
             border-top: 4px solid #6c5ce7;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
             box-shadow: 0 0 20px rgba(108, 92, 231, 0.1);
         }
 
@@ -64,8 +85,13 @@
             position: relative;
             z-index: 10;
             opacity: 0;
+            visibility: hidden;
             transform: perspective(1000px) rotateX(-90deg) scale(0.7);
-            animation: unfoldIn 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+
+        .container.visible {
+            animation: unfoldIn 1.2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            visibility: visible;
         }
 
         .error-code {
@@ -79,6 +105,9 @@
             line-height: 1;
             margin-bottom: 0.5rem;
             transform: scale(0);
+        }
+
+        .container.visible .error-code {
             animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s forwards;
         }
 
@@ -94,9 +123,12 @@
             margin-top: 0.75rem;
             opacity: 0;
             transform: translateY(20px);
-            animation: slideUpFade 0.6s ease-out 0.6s forwards;
             position: relative;
             overflow: hidden;
+        }
+
+        .container.visible .home-button {
+            animation: slideUpFade 0.6s ease-out 0.8s forwards;
         }
 
         .home-button:hover {
@@ -122,13 +154,28 @@
         .message {
             opacity: 0;
             transform: translateY(20px);
-            animation: slideUpFade 0.6s ease-out 0.5s forwards;
+        }
+
+        .container.visible .message {
+            animation: slideUpFade 0.6s ease-out 0.6s forwards;
         }
 
         .origin-url {
             opacity: 0;
             transform: translateY(20px);
-            animation: slideUpFade 0.6s ease-out 0.7s forwards;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #636e72;
+            word-break: break-all;
+        }
+
+        .container.visible .origin-url {
+            animation: slideUpFade 0.6s ease-out 1s forwards;
+        }
+
+        .origin-url a {
+            color: #6c5ce7;
+            text-decoration: underline;
         }
 
         @keyframes unfoldIn {
@@ -148,15 +195,12 @@
         @keyframes popIn {
             0% {
                 transform: scale(0);
-                text-shadow: 0 0 0 rgba(0,0,0,0);
             }
             80% {
                 transform: scale(1.1);
-                text-shadow: 0 10px 20px rgba(108, 92, 231, 0.2);
             }
             100% {
                 transform: scale(1);
-                text-shadow: 0 5px 15px rgba(108, 92, 231, 0.1);
             }
         }
 
@@ -200,23 +244,13 @@
                 transform: translate(-50px, -50px) rotate(360deg);
             }
         }
-
-        .origin-url {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #636e72;
-            word-break: break-all;
-        }
-
-        .origin-url a {
-            color: #6c5ce7;
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
     <div class="loader">
         <div class="loader-spinner"></div>
+        <div class="loader-text">Loading...</div>
+        <div class="loader-error"></div>
     </div>
 
     <div class="particles" id="particlesContainer"></div>
@@ -229,15 +263,44 @@
         </div>
         <div id="originUrlContainer" class="origin-url" style="display: none;">
             You came from: <a id="originUrlLink" href="#"></a>
-         </div>
+        </div>
         <a href="/" class="home-button">Back to Home</a>
     </div>
 
     <script>
-        window.addEventListener('load', function() {
+        let loadTimeout;
+        let slowLoadTimeout;
+
+        function showError(message) {
+            const errorElement = document.querySelector('.loader-error');
+            errorElement.textContent = message;
+            errorElement.classList.add('visible');
+        }
+
+        function initializeLoading() {
+            const loaderText = document.querySelector('.loader-text');
+            
+            loadTimeout = setTimeout(() => {
+                showError('No internet connection');
+            }, 5000);
+
+            slowLoadTimeout = setTimeout(() => {
+                loaderText.textContent = 'Taking longer than usual...';
+            }, 3000);
+        }
+
+        function finishLoading() {
+            clearTimeout(loadTimeout);
+            clearTimeout(slowLoadTimeout);
+            
             const loader = document.querySelector('.loader');
-            loader.classList.add('hidden');
-        });
+            const container = document.querySelector('.container');
+            
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                container.classList.add('visible');
+            }, 500);
+        }
 
         function createParticles() {
             const container = document.getElementById('particlesContainer');
@@ -254,11 +317,7 @@
                 particle.style.left = `${Math.random() * 100}%`;
                 particle.style.top = `${Math.random() * 100}%`;
 
-                particle.style.animationDelay = `${Math.random() * 2}s`;
-                particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
-
                 particle.style.animation = `particleMove ${Math.random() * 10 + 5}s infinite alternate`;
-
                 particle.style.opacity = Math.random() * 0.4;
 
                 container.appendChild(particle);
@@ -266,21 +325,21 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            initializeLoading();
+            createParticles();
+
             const urlParams = new URLSearchParams(window.location.search);
             const originalUrl = urlParams.get('url');
-
             const messageElement = document.querySelector('.message');
 
             if (!originalUrl) {
                 messageElement.innerHTML = "[E]: Comeback URL not found";
-                
                 const originUrlContainer = document.getElementById('originUrlContainer');
                 originUrlContainer.style.display = 'none';
             } else {
                 try {
                     const decodedUrl = decodeURIComponent(originalUrl);
                     const parsedUrl = new URL(decodedUrl);
-
                     const originUrlContainer = document.getElementById('originUrlContainer');
                     const originUrlLink = document.getElementById('originUrlLink');
 
@@ -301,7 +360,7 @@
                 }
             }
 
-            createParticles();
+            window.addEventListener('load', finishLoading);
         });
     </script>
 </body>
