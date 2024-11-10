@@ -27,9 +27,11 @@
             text-align: center;
             max-width: 90%;
             width: 500px;
-            animation: slideUp 0.8s ease-out;
             position: relative;
             z-index: 10;
+            opacity: 0;
+            transform: perspective(1000px) rotateX(-90deg);
+            animation: unfoldIn 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
         }
 
         .error-code {
@@ -43,19 +45,8 @@
             line-height: 1;
             animation: pulse 2s infinite;
             margin-bottom: 0.5rem;
-        }
-
-        .message {
-            font-size: 1rem;
-            margin: 0.5rem 0;
-            color: #636e72;
-            line-height: 1.4;
-        }
-
-        .message a {
-            color: #6c5ce7;
-            text-decoration: underline;
-            word-break: break-all;
+            transform: scale(0);
+            animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s forwards;
         }
 
         .home-button {
@@ -68,34 +59,58 @@
             font-weight: 500;
             transition: transform 0.2s, box-shadow 0.2s;
             margin-top: 0.75rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFade 0.6s ease-out 0.6s forwards;
         }
 
-        .home-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+        .message {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFade 0.6s ease-out 0.5s forwards;
         }
 
-        @keyframes slideUp {
-            from {
+        .origin-url {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFade 0.6s ease-out 0.7s forwards;
+        }
+
+        @keyframes unfoldIn {
+            0% {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: perspective(1000px) rotateX(-90deg);
             }
-            to {
+            100% {
+                opacity: 1;
+                transform: perspective(1000px) rotateX(0deg);
+            }
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideUpFade {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .particles {
@@ -208,6 +223,7 @@
             }
 
             createParticles();
+         createParticles();
         });
     </script>
 </body>
