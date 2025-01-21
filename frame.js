@@ -1,1 +1,122 @@
-const _0x5b8adc=_0x5d1a;(function(_0x205937,_0x5017ee){const _0x15e6b5=_0x5d1a,_0x53c3f5=_0x205937();while(!![]){try{const _0x520202=parseInt(_0x15e6b5(0x103))/0x1*(-parseInt(_0x15e6b5(0x10d))/0x2)+-parseInt(_0x15e6b5(0xf7))/0x3*(-parseInt(_0x15e6b5(0x10c))/0x4)+parseInt(_0x15e6b5(0x101))/0x5+-parseInt(_0x15e6b5(0x107))/0x6*(-parseInt(_0x15e6b5(0xfb))/0x7)+-parseInt(_0x15e6b5(0xfd))/0x8*(-parseInt(_0x15e6b5(0x108))/0x9)+-parseInt(_0x15e6b5(0xfc))/0xa+parseInt(_0x15e6b5(0xfe))/0xb*(parseInt(_0x15e6b5(0x106))/0xc);if(_0x520202===_0x5017ee)break;else _0x53c3f5['push'](_0x53c3f5['shift']());}catch(_0x35aca3){_0x53c3f5['push'](_0x53c3f5['shift']());}}}(_0x587f,0x3366d));const loaderStyle=document[_0x5b8adc(0x10e)](_0x5b8adc(0xfa));loaderStyle['textContent']='\x0a\x20\x20.loader\x20{\x0a\x20\x20\x20\x20position:\x20fixed;\x0a\x20\x20\x20\x20top:\x200;\x0a\x20\x20\x20\x20left:\x200;\x0a\x20\x20\x20\x20width:\x20100%;\x0a\x20\x20\x20\x20height:\x20100%;\x0a\x20\x20\x20\x20background:\x20var(--loader-bg,\x20rgba(255,\x20255,\x20255,\x201));\x20/*\x20Start\x20with\x20white\x20background\x20*/\x0a\x20\x20\x20\x20display:\x20flex;\x0a\x20\x20\x20\x20flex-direction:\x20column;\x0a\x20\x20\x20\x20justify-content:\x20center;\x0a\x20\x20\x20\x20align-items:\x20center;\x0a\x20\x20\x20\x20z-index:\x209999;\x0a\x20\x20\x20\x20backdrop-filter:\x20blur(5px);\x0a\x20\x20}\x0a\x20\x20.loader-text\x20{\x0a\x20\x20\x20\x20margin-top:\x2020px;\x0a\x20\x20\x20\x20font-size:\x2016px;\x0a\x20\x20\x20\x20color:\x20#2d3436;\x0a\x20\x20}\x0a\x20\x20.loader-spinner\x20{\x0a\x20\x20\x20\x20width:\x2080px;\x0a\x20\x20\x20\x20height:\x2080px;\x0a\x20\x20\x20\x20border:\x204px\x20solid\x20rgba(108,\x2092,\x20231,\x200.2);\x0a\x20\x20\x20\x20border-top:\x204px\x20solid\x20#6c5ce7;\x0a\x20\x20\x20\x20border-radius:\x2050%;\x0a\x20\x20\x20\x20animation:\x20spin\x201s\x20cubic-bezier(0.68,\x20-0.55,\x200.265,\x201.55)\x20infinite;\x0a\x20\x20\x20\x20box-shadow:\x200\x200\x2020px\x20rgba(108,\x2092,\x20231,\x200.1);\x0a\x20\x20}\x0a\x20\x20@keyframes\x20spin\x20{\x0a\x20\x20\x20\x200%\x20{\x20transform:\x20rotate(0deg);\x20}\x0a\x20\x20\x20\x20100%\x20{\x20transform:\x20rotate(360deg);\x20}\x0a\x20\x20}\x0a\x20\x20.loader.hidden\x20{\x0a\x20\x20\x20\x20display:\x20none;\x0a\x20\x20}\x0a\x20\x20.loader-credit\x20{\x0a\x20\x20\x20\x20position:\x20absolute;\x0a\x20\x20\x20\x20bottom:\x2020px;\x0a\x20\x20\x20\x20font-size:\x2012px;\x0a\x20\x20\x20\x20color:\x20rgba(0,\x200,\x200,\x200.6);\x20/*\x20Small\x20and\x20readable\x20*/\x0a\x20\x20\x20\x20text-align:\x20center;\x0a\x20\x20\x20\x20width:\x20100%;\x0a\x20\x20}\x0a\x20\x20.error-box\x20{\x0a\x20\x20\x20\x20position:\x20fixed;\x0a\x20\x20\x20\x20bottom:\x2020px;\x0a\x20\x20\x20\x20right:\x2020px;\x0a\x20\x20\x20\x20background:\x20#ff6b6b;\x0a\x20\x20\x20\x20color:\x20white;\x0a\x20\x20\x20\x20padding:\x2015px;\x0a\x20\x20\x20\x20border-radius:\x205px;\x0a\x20\x20\x20\x20box-shadow:\x200\x200\x2010px\x20rgba(0,\x200,\x200,\x200.1);\x0a\x20\x20\x20\x20animation:\x20slideIn\x200.5s\x20ease;\x0a\x20\x20\x20\x20display:\x20none;\x0a\x20\x20}\x0a\x20\x20@keyframes\x20slideIn\x20{\x0a\x20\x20\x20\x20from\x20{\x20transform:\x20translateX(100%);\x20}\x0a\x20\x20\x20\x20to\x20{\x20transform:\x20translateX(0);\x20}\x0a\x20\x20}\x0a',document['head'][_0x5b8adc(0x10a)](loaderStyle);function _0x5d1a(_0x17b45a,_0x3f36a9){const _0x587f8d=_0x587f();return _0x5d1a=function(_0x5d1aa8,_0x2c4ff7){_0x5d1aa8=_0x5d1aa8-0xf2;let _0x58de46=_0x587f8d[_0x5d1aa8];return _0x58de46;},_0x5d1a(_0x17b45a,_0x3f36a9);}const loader=document[_0x5b8adc(0x10e)](_0x5b8adc(0xf8));loader[_0x5b8adc(0x102)]='loader',loader['innerHTML']=_0x5b8adc(0xf5),document['body'][_0x5b8adc(0x10a)](loader);const errorBox=document[_0x5b8adc(0x10e)](_0x5b8adc(0xf8));errorBox[_0x5b8adc(0x102)]=_0x5b8adc(0xf4),errorBox[_0x5b8adc(0xff)]=_0x5b8adc(0xf2),document[_0x5b8adc(0x104)]['appendChild'](errorBox);function finishLoading(){const _0x4bc518=_0x5b8adc;loader[_0x4bc518(0x105)]['add'](_0x4bc518(0xf6)),window[_0x4bc518(0x109)](new Event(_0x4bc518(0x100)));}function showError(){const _0x4231c3=_0x5b8adc;errorBox[_0x4231c3(0xfa)]['display']=_0x4231c3(0xf9);}window[_0x5b8adc(0x10b)](_0x5b8adc(0xf3),finishLoading);function _0x587f(){const _0x171904=['textContent','loaderHidden','661585jggzTx','className','134313WPdBbs','body','classList','1482888TGGaDV','234wpiBxa','9lkHyAt','dispatchEvent','appendChild','addEventListener','1180NvbQLW','4hrQEsK','createElement','An\x20error\x20occurred\x20while\x20loading\x20the\x20site.','load','error-box','\x0a\x20\x20<div\x20class=\x22loader-spinner\x22></div>\x0a\x20\x20<div\x20class=\x22loader-text\x22>Loading...</div>\x0a\x20\x20<div\x20class=\x22loader-credit\x22>A\x20Project\x20Made\x20By\x20Anoxle\x20💖</div>\x0a','hidden','1413lioDke','div','block','style','42469LUvxQh','3819630JAzfGS','1837448LnfEUc','11UyhnSa'];_0x587f=function(){return _0x171904;};return _0x587f();}
+const loaderStyle = document.createElement('style');
+loaderStyle.textContent = `
+  .loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--loader-bg, rgba(255, 255, 255, 1)); /* Start with white background */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+  }
+  .loader-text {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #2d3436;
+  }
+  .loader-spinner {
+    width: 80px;
+    height: 80px;
+    border: 4px solid rgba(108, 92, 231, 0.2);
+    border-top: 4px solid #6c5ce7;
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    box-shadow: 0 0 20px rgba(108, 92, 231, 0.1);
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .loader.hidden {
+    display: none;
+  }
+  .loader-credit {
+    position: absolute;
+    bottom: 20px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.6); /* Small and readable */
+    text-align: center;
+    width: 100%;
+  }
+  .error-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff6b6b;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 10000;
+  }
+`;
+document.head.appendChild(loaderStyle);
+
+const loader = document.createElement('div');
+loader.className = 'loader';
+loader.innerHTML = `
+  <div class="loader-spinner"></div>
+  <div class="loader-text">Loading...</div>
+  <div class="loader-credit">A Project Made By Anoxle 💖</div>
+`;
+document.body.appendChild(loader);
+
+const errorPopup = document.createElement('div');
+errorPopup.className = 'error-popup';
+errorPopup.textContent = 'Check Your Internet Connection';
+document.body.appendChild(errorPopup);
+
+let loadingText = loader.querySelector('.loader-text');
+let timeoutId;
+
+// Function to update the loading text
+function updateLoadingText(text) {
+  loadingText.textContent = text;
+}
+
+// Function to show the error popup
+function showErrorPopup() {
+  errorPopup.style.display = 'block';
+}
+
+// Function to check internet connection
+function checkInternetConnection() {
+  if (!navigator.onLine) {
+    updateLoadingText('No Internet Connection');
+    showErrorPopup();
+  }
+}
+
+// Function to handle loading completion
+function finishLoading() {
+  clearTimeout(timeoutId); // Clear the timeout if the page loads before 5 seconds
+  loader.classList.add('hidden');
+}
+
+// If loading takes more than 5 seconds, update the text
+timeoutId = setTimeout(() => {
+  updateLoadingText('Taking Longer Than Usual');
+}, 5000);
+
+// Check internet connection on page load
+window.addEventListener('load', () => {
+  checkInternetConnection();
+  finishLoading();
+});
+
+// Check internet connection if it changes while loading
+window.addEventListener('online', () => {
+  updateLoadingText('Loading...');
+  errorPopup.style.display = 'none';
+});
+
+window.addEventListener('offline', () => {
+  updateLoadingText('No Internet Connection');
+  showErrorPopup();
+});
