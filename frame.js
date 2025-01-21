@@ -1,5 +1,8 @@
 const loaderStyle = document.createElement('style');
 loaderStyle.textContent = `
+  body.loading {
+    overflow: hidden;
+  }
   .loader {
     position: fixed;
     top: 0;
@@ -61,6 +64,8 @@ loaderStyle.textContent = `
 `;
 document.head.appendChild(loaderStyle);
 
+document.body.classList.add('loading');
+
 const loader = document.createElement('div');
 loader.className = 'loader';
 loader.innerHTML = `
@@ -101,6 +106,7 @@ function checkInternetConnection() {
 function finishLoading() {
   clearTimeout(timeoutId);
   loader.classList.add('hidden');
+  document.body.classList.remove('loading');
 }
 
 timeoutId = setTimeout(() => {
