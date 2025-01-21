@@ -6,7 +6,7 @@ loaderStyle.textContent = `
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--loader-bg, rgba(255, 255, 255, 1)); /* Start with white background */
+    background: var(--loader-bg, rgba(255, 255, 255, 1));
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -39,7 +39,7 @@ loaderStyle.textContent = `
     position: absolute;
     bottom: 20px;
     font-size: 12px;
-    color: rgba(0, 0, 0, 0.6); /* Small and readable */
+    color: rgba(0, 0, 0, 0.6);
     text-align: center;
     width: 100%;
   }
@@ -54,6 +54,9 @@ loaderStyle.textContent = `
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: none;
     z-index: 10000;
+  }
+  .error-popup.hidden {
+    display: none;
   }
 `;
 document.head.appendChild(loaderStyle);
@@ -75,48 +78,56 @@ document.body.appendChild(errorPopup);
 let loadingText = loader.querySelector('.loader-text');
 let timeoutId;
 
-// Function to update the loading text
 function updateLoadingText(text) {
   loadingText.textContent = text;
 }
 
-// Function to show the error popup
-function showErrorPopup() {
+function showErrorPopup(message) {
+  errorPopup.textContent = message;
   errorPopup.style.display = 'block';
 }
 
-// Function to check internet connection
+function hideErrorPopup() {
+  errorPopup.style.display = 'none';
+}
+
 function checkInternetConnection() {
   if (!navigator.onLine) {
     updateLoadingText('No Internet Connection');
-    showErrorPopup();
+    showErrorPopup('Check Your Internet Connection');
   }
 }
 
-// Function to handle loading completion
 function finishLoading() {
-  clearTimeout(timeoutId); // Clear the timeout if the page loads before 5 seconds
+  clearTimeout(timeoutId);
   loader.classList.add('hidden');
 }
 
-// If loading takes more than 5 seconds, update the text
 timeoutId = setTimeout(() => {
   updateLoadingText('Taking Longer Than Usual');
 }, 5000);
 
-// Check internet connection on page load
 window.addEventListener('load', () => {
   checkInternetConnection();
   finishLoading();
 });
 
-// Check internet connection if it changes while loading
 window.addEventListener('online', () => {
   updateLoadingText('Loading...');
-  errorPopup.style.display = 'none';
+  hideErrorPopup();
 });
 
 window.addEventListener('offline', () => {
   updateLoadingText('No Internet Connection');
-  showErrorPopup();
+  showErrorPopup('Check Your Internet Connection');
+});
+
+window.addEventListener('error', (event) => {
+  updateLoadingText('An Error Occurred');
+  showErrorPopup('An error occurred while loading the site.');
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+  updateLoadingText('An Error Occurred');
+  showErrorPopup('An error occurred while loading the site.');
 });
