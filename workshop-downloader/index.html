@@ -36,6 +36,8 @@
             background: rgba(255, 255, 255, 0.95); padding: 1rem 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); text-align: center; max-width: 90%; width: 500px; position: relative; z-index: 10; opacity: 0; visibility: hidden; transform: perspective(1000px) rotateX(-90deg) scale(0.7);
         }
         .container.visible {
+            animation: unfoldIn        }
+        .container.visible {
             animation: unfoldIn 1.2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; visibility: visible;
         }
         .title {
@@ -177,48 +179,25 @@
                 showError("Please enter a valid Steam Workshop URL");
                 return;
             }
-
             const workshopInfoDiv = document.getElementById('workshopInfo');
             workshopInfoDiv.classList.remove('visible');
 
-            const proxyUrl = 'https://cors.io/?'; 
-            const targetUrl = `${proxyUrl}${workshopUrl}`;
+            const vercelFunctionUrl = 'https://anoxle.vercel.app/api/steam-info'; 
 
             try {
-                const response = await fetch(targetUrl);
-
+                const response = await fetch(`${vercelFunctionUrl}?workshopUrl=${encodeURIComponent(workshopUrl)}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-
-                const html = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-
-                const getSafeContent = (selector, attr = 'textContent') => {
-                  const element = doc.querySelector(selector);
-                  return element ? element[attr].trim() : 'N/A';
-                };
-
-                const workshopData = {
-                  thumbnail: getSafeContent('.workshopItemPreviewImageMain', 'src'),
-                  name: getSafeContent('.workshopItemTitle'),
-                  game: getSafeContent('.breadcrumbs a:nth-of-type(3)'),
-                  created: getSafeContent('div.detailsStatsContainer > div:contains("Posted") + div'),
-                  updated: getSafeContent('div.detailsStatsContainer > div:contains("Updated") + div'),
-                  size: getSafeContent('div.detailsStatsContainer > div:contains("Size") + div'),
-                };
-
+                const workshopData = await response.json();
                 document.getElementById('workshopThumbnail').src = workshopData.thumbnail;
                 document.getElementById('workshopName').textContent = `Name: ${workshopData.name}`;
                 document.getElementById('workshopGame').textContent = `Game: ${workshopData.game}`;
                 document.getElementById('workshopCreated').textContent = `Created: ${workshopData.created}`;
                 document.getElementById('workshopUpdated').textContent = `Updated: ${workshopData.updated}`;
                 document.getElementById('workshopSize').textContent = `Size: ${workshopData.size}`;
-
                 workshopInfoDiv.classList.add('visible');
                 workshopInfoDiv.style.opacity = 1;
-
             } catch (error) {
                 console.error('Fetch error:', error);
                 showError("Failed to fetch workshop info. Please check the console for details.");
