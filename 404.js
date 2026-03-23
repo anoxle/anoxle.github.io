@@ -1,77 +1,66 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const stage = document.createElement('div');
-    stage.className = 'lost-wrap';
+(function() {
+  document.body.innerHTML = "";
+  document.body.style.margin = "0";
+  document.body.style.padding = "0";
+  document.body.style.background = "#0F0F0F";
+  document.body.style.overflow = "hidden";
+  document.documentElement.style.margin = "0";
+  document.documentElement.style.padding = "0";
+  document.documentElement.style.background = "#0F0F0F";
+  document.documentElement.style.overflow = "hidden";
 
-    const text = document.createElement('h1');
-    text.className = 'lost-text';
-    text.textContent = 'Looks like you are lost.';
+  var homeUrl = window.NF_HOME || window.location.origin;
 
-    const back = document.createElement('button');
-    back.className = 'btn-home';
-    back.textContent = 'Back to Home';
+  var wrap = document.createElement("div");
+  wrap.id = "nf404";
+  wrap.style.cssText = "position:fixed;inset:0;background:#0F0F0F;z-index:999999;font-family:'Courier New',Courier,monospace;overflow:hidden";
+  document.body.appendChild(wrap);
 
-    stage.appendChild(text);
-    stage.appendChild(back);
-    document.body.appendChild(stage);
+  var style = document.createElement("style");
+  style.textContent = "#nf404 *{margin:0;padding:0;box-sizing:border-box}#nf404 .nf-label{font-size:14px;font-weight:700;letter-spacing:.25em;color:#d4d4d4;padding:28px 32px;user-select:none;display:inline-block}#nf404 .nf-label .cur{display:inline-block;width:8px;height:14px;background:#d4d4d4;margin-left:2px;vertical-align:middle;animation:nfblink .7s step-end infinite}#nf404 .tc{opacity:0;animation:nfsc .01s forwards}#nf404 .sub-info{color:#555;font-size:12px;padding:0 32px;letter-spacing:.12em;line-height:1.8}#nf404 .sub-info .ref-url{color:#444}#nf404 .home-link{color:#777;font-size:12px;padding:16px 32px;letter-spacing:.12em;cursor:pointer;display:inline-block;text-decoration:none;transition:color .25s ease}#nf404 .home-link:hover{color:#d4d4d4}@keyframes nfblink{0%,100%{opacity:1}50%{opacity:0}}@keyframes nfsc{to{opacity:1}}";
+  wrap.appendChild(style);
 
-    const sheet = `
-        @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
+  var box = document.createElement("div");
+  box.className = "nf-label";
+  wrap.appendChild(box);
 
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #1f232e;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 0);
-            background-size: 25px 25px;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            color: white;
-            overflow: hidden;
-        }
+  var msg = "PAGE NOT FOUND";
+  let cur = document.createElement("span");
+  cur.className = "cur";
+  box.appendChild(cur);
 
-        .lost-wrap {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
+  var n = 0;
+  function doType() {
+    if (n >= msg.length) {
+      setTimeout(showInfo, 300);
+      return;
+    }
+    let sp = document.createElement("span");
+    sp.textContent = msg[n];
+    sp.className = "tc";
+    box.insertBefore(sp, cur);
+    n++;
+    setTimeout(doType, 70 + Math.random() * 50);
+  }
 
-        .lost-text {
-            font-family: 'Mochiy Pop One', sans-serif;
-            font-size: clamp(1.8rem, 6vw, 3.5rem);
-            margin: 0 0 40px 0;
-            background: linear-gradient(90deg, #725de6, #9b62da);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+  function showInfo() {
+    var ref = document.referrer;
+    var info = document.createElement("div");
+    info.className = "sub-info";
 
-        .btn-home {
-            background: white;
-            color: #1f232e;
-            border: none;
-            padding: 15px 45px;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    if (ref && ref.length > 0) {
+      info.innerHTML = 'Request from: <span class="ref-url">' + ref + "</span>";
+    } else {
+      info.textContent = "No referring page detected.";
+    }
+    wrap.appendChild(info);
 
-        .btn-home:hover {
-            background: #725de6;
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(114, 93, 230, 0.4);
-        }
-    `;
+    var link = document.createElement("a");
+    link.className = "home-link";
+    link.href = homeUrl;
+    link.textContent = "< Back to Home";
+    wrap.appendChild(link);
+  }
 
-    const style = document.createElement('style');
-    style.textContent = sheet;
-    document.head.appendChild(style);
-
-    back.onclick = () => {
-        window.location.href = 'https://anoxle.github.io/';
-    };
-});
+  setTimeout(doType, 400);
+})();
